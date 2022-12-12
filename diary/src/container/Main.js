@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types'
 import { connect } from "react-redux";
-import diaryForm from "../components/diaryForm";
+import DiaryForm from "../components/DiaryForm";
 import {addItem} from "../redux/actions";
-import diaryItem from "../components/diaryItem";
+import DiaryItem from "../components/DiaryItem";
 
 export class Main extends Component {
     //   static propTypes = {
@@ -15,14 +15,16 @@ export class Main extends Component {
         const { addItem, diaryItems } = this.props
         return (
             <div className="grid-container">
-                <div className="diary-app">
+                <div className="diary-app" style={{paddingTop:"20px"}}>
                     <h1>Diary</h1>
-                    <diaryForm addItem={(item) => addItem(item)} />
+                    <DiaryForm addItem={(item) => addItem(item)} />
 
                 </div>
                 <div className="diary-app">
                     {diaryItems.length > 0 ? (diaryItems.map((item) => {
-                        <diaryItem/>
+                        return(
+                            <DiaryItem item={item}/>
+                        )
                     })
 
                     )
