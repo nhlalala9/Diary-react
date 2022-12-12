@@ -2,20 +2,23 @@ import React, { Component } from "react";
 // import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import DiaryForm from "../components/DiaryForm";
-import { addItem } from "../redux/actions";
+import { addItem,deleteItem } from "../redux/actions";
 import DiaryItem from "../components/DiaryItem";
+import {Modal} from "react-bootstrap";
 
 export class Main extends Component {
     constructor(){
         super();
         this.state = {
-           show: false
+           show: false,
+           activeItem: null
         };
     }
 
     render() {
 
-        const { addItem, diaryItems } = this.props
+        const { addItem, diaryItems,deleteItem } = this.props;
+        const {show,activeItem} = this.state 
         return (
             <div>
                 <div className="grid-container">
@@ -26,9 +29,8 @@ export class Main extends Component {
                     </div>
                     <div className="diary-app">
                         {diaryItems.length > 0 ? (diaryItems.map((item) => {
-                            return (
-                                <DiaryItem item={item} />
-                            )
+                            return <DiaryItem deleteItem={(id) => deleteItem(id)} showModal={(item) => this.setState({show: true,activeItem: item})} key={item.id} item={item} />;
+                            
                         })
 
                         )
@@ -40,15 +42,20 @@ export class Main extends Component {
                     <Modal
                         size="lg"
                         show={show}
-                        onHide={() => setLgShow(false)}
+                        onHide={() => this.setState({show:false})}
                         aria-labelledby="example-modal-sizes-title-lg"
                     >
                         <Modal.Header closeButton>
                             <Modal.Title id="example-modal-sizes-title-lg">
-                                Large Modal
+                                {activeItem?.title}
                             </Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>...</Modal.Body>
+                        <Modal.Body>
+                            {activeItem?.text}
+                        </Modal.Body>
+                        <Modal.Footer>
+                            {activeItem?.date}
+                        </Modal.Footer>
                     </Modal>
                 </div>
             </div>
@@ -61,7 +68,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addItem: (item) => dispatch(addItem(item))
+    addItem: (item) => dispatch(addItem(item)),
+    deleteItem: (id) => dispatch(deleteItem(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
