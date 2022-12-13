@@ -1,5 +1,5 @@
 import React from "react";
-import {TiDeleleOutLine} from 'react-icons/ti'
+import {AiFillDelete} from 'react-icons/ai'
 
 export default function DiaryItem({item,showModal,deleteItem}) {
   return (
@@ -7,7 +7,7 @@ export default function DiaryItem({item,showModal,deleteItem}) {
        <span onClick={() => showModal(item)}>  {item.title}</span>
        <div>
            <span className="date">{item.date}</span>
-           <TiDeleleOutLine onClick={() => deleteItem(item.id)} className="delete" style={{ color: "red"}} />
+           <AiFillDelete onClick={() => deleteItem(item.id)} className="delete" style={{ color: "red"}} />
        </div>
     </div>
   )
